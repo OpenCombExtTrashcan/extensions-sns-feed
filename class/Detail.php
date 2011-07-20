@@ -30,15 +30,12 @@ class Detail extends Controller
 {
 	protected function init()
 	{
-		
-		
-		
-		$this->createView("defaultView", "Blog.Index.html") ;
+		$this->createView("Detail", "Blog.Index.html") ;
 		
 		$this->model = Model::fromFragment('blog',array(),true);
 		
 		//设置model
-		$this->defaultView->setModel($this->model) ;
+		$this->viewDetail->setModel($this->model) ;
 		
 	}
 	

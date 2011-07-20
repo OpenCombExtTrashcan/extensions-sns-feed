@@ -32,9 +32,6 @@ class Delete extends Controller
 {
 	protected function init()
 	{
-		
-		
-		
 		$this->model = Model::fromFragment('blog',array('tag'));
 	}
 	

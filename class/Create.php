@@ -29,54 +29,52 @@ class Insert extends Controller
 	protected function init()
 	{
 		
-		
-		
 		//创建视图
-		$this->createView("defaultView", "Blog.Insert.html",true) ;
+		$this->createView("Insert", "Blog.Insert.html",true) ;
 		
 		// 为视图创建控件
-		$this->defaultView->addWidget( new Text("title","标题","",Text::single), 'title' )->addVerifier( NotEmpty::singleton (), "请说点什么" ) ;
-		$this->defaultView->addWidget( new Text("text","内容","",Text::multiple), 'text' )->addVerifier( NotEmpty::singleton (), "请说点什么" ) ;
-		$this->defaultView->addWidget( new Text("tag","标签","",Text::single), 'tag.title' )->addVerifier( NotEmpty::singleton (), "请说点什么" ) ;
+		$this->viewInsert->addWidget( new Text("title","标题","",Text::single), 'title' )->addVerifier( NotEmpty::singleton (), "请说点什么" ) ;
+		$this->viewInsert->addWidget( new Text("text","内容","",Text::multiple), 'text' )->addVerifier( NotEmpty::singleton (), "请说点什么" ) ;
+		$this->viewInsert->addWidget( new Text("tag","标签","",Text::single), 'tag.title' )->addVerifier( NotEmpty::singleton (), "请说点什么" ) ;
 		
 		//设置model
-		$this->defaultView->setModel( new ModelBlog() ) ;
-		//$this->defaultView->setModel( Model::fromFragment('blog',array("tag")) ) ;
+		$this->viewInsert->setModel( new ModelBlog() ) ;
+		//$this->viewInsert->setModel( Model::fromFragment('blog',array("tag")) ) ;
 		
 	}
 	
 	public function process()
 	{
 		
-		if( $this->defaultView->isSubmit( $this->aParams ) )
+		if( $this->viewInsert->isSubmit( $this->aParams ) )
 		{
             // 加载 视图窗体的数据
-            $this->defaultView->loadWidgets( $this->aParams ) ;
+            $this->viewInsert->loadWidgets( $this->aParams ) ;
             
             // 校验 视图窗体的数据
-            if( $this->defaultView->verifyWidgets() )
+            if( $this->viewInsert->verifyWidgets() )
             {
-            	$this->defaultView->exchangeData(DataExchanger::WIDGET_TO_MODEL) ;
+            	$this->viewInsert->exchangeData(DataExchanger::WIDGET_TO_MODEL) ;
             	
             	
-				$this->defaultView->model()->setData('uid',IdManager::fromSession()->currentId()->userId()) ;
-				$this->defaultView->model()->setData('time',time()) ;
+				$this->viewInsert->model()->setData('uid',IdManager::fromSession()->currentId()->userId()) ;
+				$this->viewInsert->model()->setData('time',time()) ;
 				
 				$aTag = explode(" ", $this->aParams->get("tag"));
 				
 				for($i = 0; $i < sizeof($aTag); $i++){
-					$this->defaultView->model()->child('tag')->buildChild($aTag[$i],"title");
+					$this->viewInsert->model()->child('tag')->buildChild($aTag[$i],"title");
 				}
 				
             	try {
-            		if( $this->defaultView->model()->save() )
+            		if( $this->viewInsert->model()->save() )
             		{
-            			$this->defaultView->createMessage( Message::success, "发布成功！" ) ;
-            			$this->defaultView->hideForm() ;
+            			$this->viewInsert->createMessage( Message::success, "发布成功！" ) ;
+            			$this->viewInsert->hideForm() ;
             		}
             		else 
             		{
-            			$this->defaultView->createMessage( Message::failed, "遇到错误！" ) ;
+            			$this->viewInsert->createMessage( Message::failed, "遇到错误！" ) ;
             		}
             		
             			
