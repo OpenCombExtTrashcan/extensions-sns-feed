@@ -30,8 +30,8 @@ class Index extends Controller
 {
 	protected function init()
 	{
-		// 网页框架
-		$this->add(new FrontFrame()) ;
+		
+		
 		
 		$this->createView("defaultView", "Blog.Index.html") ;
 		
